@@ -1,0 +1,20 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for nginx
+- name: Install nginx
+  ansible.builtin.dnf:
+    name: nginx
+    state: present
+- name: Start nginx service
+  ansible.builtin.service:
+    name: nginx
+    state: started
+    enabled: true
+- name: Copy index.html to nginx default directory
+  ansible.builtin.copy:
+    src: files/index.html
+    dest: /var/www/html/index.html
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Restart nginx service
